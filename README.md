@@ -1,4 +1,4 @@
-admin-scripts
+scripts
 =============
 
-Collection of scripts to make certain sysadmin tasks a little easier.
+A collection of scripts
