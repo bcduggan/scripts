@@ -1,0 +1,44 @@
+#!/usr/bin/perl
+
+my $deploy_dir = '../rt4';
+my $deploy_cmd = sprintf('git --work-tree=%s checkout -f master', $deploy_dir);
+my $apache_stop = 'apachectl stop';
+my $clr_mason_cache = sprintf('rm -rf %s/var/mason_data/obj/*', $deploy_dir);
+my $apache_start = 'apachectl start';
+
+my $input = <STDIN>;
+
+my ($from, $to, $branch) = split(' ', $input);
+
+unless ($branch eq 'refs/heads/master') {
+    printf("Received branch %s. Not deploying.\n", $branch);
+    exit 0;
+}
+
+unless (system($deploy_cmd)) {
+    printf("master %s checked out to %s\n", $to, $deploy_diro);
+}
+else {
+    die sprintf("git checkout command failed with exit code %d\n", $?);
+}
+
+unless (system($apache_stop)) {
+    print "Stopping apache\n";
+}
+else {
+    die sprintf("appachectl stop failed with exit code %d\n", $?);
+}
+
+unless (system($clr_mason_cache)) {
+    print "Clearing Mason cache\n";
+}
+else {
+    die sprintf("Mason cache 'rm' command failed with exit code %d", $?);
+}
+
+unless (system($apache_start)) {
+    print "Starting apache";
+}
+else {
+    die sprintf("apachectl start failed with exit code %d", $?);
+}
