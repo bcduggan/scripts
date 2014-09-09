@@ -16,7 +16,7 @@ unless ($branch eq 'refs/heads/master') {
 }
 
 unless (system($deploy_cmd)) {
-    printf("master %s checked out to %s\n", $to, $deploy_diro);
+    printf("master %s checked out to %s\n", $to, $deploy_dir);
 }
 else {
     die sprintf("git checkout command failed with exit code %d\n", $?);
@@ -33,12 +33,12 @@ unless (system($clr_mason_cache)) {
     print "Clearing Mason cache\n";
 }
 else {
-    die sprintf("Mason cache 'rm' command failed with exit code %d", $?);
+    die sprintf("Mason cache 'rm' command failed with exit code %d\n", $?);
 }
 
 unless (system($apache_start)) {
-    print "Starting apache";
+    print "Starting apache\n";
 }
 else {
-    die sprintf("apachectl start failed with exit code %d", $?);
+    die sprintf("apachectl start failed with exit code %d\n", $?);
 }
