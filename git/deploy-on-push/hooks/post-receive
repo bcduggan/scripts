@@ -2,7 +2,6 @@
 
 my $deploy_dir = '../rt4';
 my $deploy_cmd = sprintf('git --work-tree=%s checkout -f master', $deploy_dir);
-my $apache_stop = 'sudo /usr/sbin/apachectl stop';
 my $clr_mason_cache = sprintf('rm -rf %s/var/mason_data/obj/*', $deploy_dir);
 my $apache_start = 'sudo /usr/sbin/apachectl restart';
 
@@ -22,13 +21,6 @@ else {
     die sprintf("git checkout command failed with exit code %d\n", $?);
 }
 
-#unless (system($apache_stop)) {
-#    print "Stopping apache\n";
-#}
-#else {
-#    die sprintf("appachectl stop failed with exit code %d\n", $?);
-#}
-
 unless (system($clr_mason_cache)) {
     print "Clearing Mason cache\n";
 }
@@ -37,7 +29,7 @@ else {
 }
 
 unless (system($apache_start)) {
-    print "Starting apache\n";
+    print "Restarting apache\n";
 }
 else {
     die sprintf("apachectl start failed with exit code %d\n", $?);
