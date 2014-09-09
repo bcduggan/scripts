@@ -56,7 +56,7 @@ aclprincipals=$1
 acldir=$2
 
 acluser=$(echo $aclprincipals | cut -f 1 -d:)
-aclgroup=$(echo $aclprincipals | cut -f 2 -d:)
+aclgroup=$(echo $aclprincipals | cut -f 2 -d: -s) # -s: Don't output if no delimiter.
 
 if [[ -z $acluser && -z $aclgroup ]]; then
     echo $USAGE
