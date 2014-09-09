@@ -86,16 +86,16 @@ for aclfile in $(find $acldir); do
 	# always set the x bit,
 	aclbits=$rwbits"x"
 	# and set a default ACL using the directory's rw bits.
-	test -n $acluser && setfacl -d -m u:$acluser:$rwbits"x"
-	test -n $aclgroup && setfacl -d -m g:$aclgroup:$rwbits"x"
+	test -n $acluser && setfacl -d -m u:$acluser:$rwbits"x" $aclfile
+	test -n $aclgroup && setfacl -d -m g:$aclgroup:$rwbits"x" $aclfile
     else
 	# Or copy the non-directory file's rwx bits.
 	aclbits=$rwbits$xbit
     fi
 
     # Finally, set the ACL from the calculate rwx bits.
-    test -n $acluser && setfacl -m u:$acluser:$aclbits
-    test -n $aclgroup && setfacl -m g:$aclgroup:$aclbits
+    test -n $acluser && setfacl -m u:$acluser:$aclbits $aclfile
+    test -n $aclgroup && setfacl -m g:$aclgroup:$aclbits $aclfile
 
 done
 IFS=$origIFS
