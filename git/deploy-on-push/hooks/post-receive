@@ -1,7 +1,8 @@
 #!/usr/bin/perl
 
 my $deploy_dir = '../rt4';
-my $deploy_cmd = sprintf('git --work-tree=%s checkout -f master', $deploy_dir);
+my $deploy_branch = 'ourvoteghost';
+my $deploy_cmd = sprintf('git --work-tree=%s checkout -f %s', $deploy_dir, $deploy_branch);
 my $clr_mason_cache = sprintf('rm -rf %s/var/mason_data/obj/*', $deploy_dir);
 my $apache_start = 'sudo /usr/sbin/apachectl restart';
 
@@ -9,13 +10,13 @@ my $input = <STDIN>;
 
 my ($from, $to, $branch) = split(' ', $input);
 
-unless ($branch eq 'refs/heads/master') {
+unless ($branch eq 'refs/heads/'.$deploy_branch) {
     printf("Received branch %s. Not deploying.\n", $branch);
     exit 0;
 }
 
 unless (system($deploy_cmd)) {
-    printf("master %s checked out to %s\n", $to, $deploy_dir);
+    printf("%s %s checked out to %s\n", $deploy_branch, $to, $deploy_dir);
 }
 else {
     die sprintf("git checkout command failed with exit code %d\n", $?);
